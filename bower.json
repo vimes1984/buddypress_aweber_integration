@@ -1,0 +1,10 @@
+{
+  "name": "buddypress-to-aweber",
+  "version": "0.0.0",
+  "dependencies": {
+    "nprogress": "~0.2.0"
+  },
+  "devDependencies": {
+    "ngprogress": "~1.0.7"
+  }
+}
