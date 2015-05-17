@@ -1,6 +1,5 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL ^ E_NOTICE);
+
 /**
  * Buddypress to Aweber
  *
@@ -98,13 +97,13 @@ class BasicAuthOptions{
    *Set aweber cookies and auth stuff
    */
    public function set_cookies(){
-     require_once(dirname(__FILE__)  . '/../includes/aweber_api/aweber_api.php');
      // Replace with the keys of your application
      // NEVER SHARE OR DISTRIBUTE YOUR APPLICATIONS'S KEYS!
      $options = get_option( 'aweber_buddypress_options' );
 
      if(isset($options['consumersecret']) && isset($options['consumerkey'])  && $options['consumersecret'] != NULL && $options['consumerkey'] != NULL && (!isset($this->accessToken) || $this->accessToken == NULL) && (!isset($this->accessTokenSecret) || $this->accessTokenSecret == NULL) ){
 
+     require_once(dirname(__FILE__)  . '/../includes/aweber_api/aweber_api.php');
      $consumerKey    = $options['consumerkey'];
      $consumerSecret = $options['consumersecret'];
      $aweber = new AWeberAPI($consumerKey, $consumerSecret);
@@ -132,6 +131,7 @@ class BasicAuthOptions{
 
 
      }
+
    }
   /**
    * Settings init
@@ -232,7 +232,7 @@ class BasicAuthOptions{
 						 update_option('accessTokenSecret', NULL);
              update_option('mappingfieldarray', false);
 						 update_option('aweber_list_options', false );
-						
+
          return $new_input;
 
        }else{

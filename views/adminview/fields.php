@@ -58,6 +58,7 @@ if( isset($accessToken)  && isset($accessTokenSecret) && $accessToken != NULL &&
               <input type="submit" name="submit" value="Save mapping " class="button button-primary">
 
           </form>
+    <div class="" ng-bind-html="toTrusted(successinfo)"></div>
     </div>
 
 

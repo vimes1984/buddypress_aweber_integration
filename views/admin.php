@@ -14,9 +14,6 @@
 
 	global $wpdb,$woocommerce, $pagenow;
 	$getadminfunction = new AdminFunctions();
-	var_dump($_GET['tab']);
-	ini_set('display_errors', 1);
-	error_reporting(E_ALL ^ E_NOTICE);
 ?>
 <div class="wrap" ng-app="aweberapp" ng-controller="mainapp">
 

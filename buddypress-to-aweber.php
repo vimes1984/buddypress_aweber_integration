@@ -28,19 +28,23 @@
 if (!defined("WPINC")) {
 	die;
 }
-
+ini_set('display_errors', 1);
+error_reporting(E_ALL ^ E_NOTICE);
 require_once(plugin_dir_path(__FILE__) . "BuddypressToAweber.php");
 require_once(plugin_dir_path(__FILE__) . "classes/class-admin-functions.php");
 require_once(plugin_dir_path(__FILE__) . "classes/class-basic-auth-options.php");
 require_once(plugin_dir_path(__FILE__) . "classes/class-list-options.php");
 require_once(plugin_dir_path(__FILE__) . "classes/class-ajax-functions.php");
+require_once(plugin_dir_path(__FILE__) . "classes/class-new-user-send-data.php");
 
 // Register hooks that are fired when the plugin is activated, deactivated, and uninstalled, respectively.
 register_activation_hook(__FILE__, array("BuddypressToAweber", "activate"));
 register_deactivation_hook(__FILE__, array("BuddypressToAweber", "deactivate"));
-
 BuddypressToAweber::get_instance();
 AdminFunctions::get_instance();
 BasicAuthOptions::get_instance();
 ListOptions::get_instance();
 AjaxFunctions::get_instance();
+NewUserSendData::get_instance();
+/*
+*/

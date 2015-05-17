@@ -149,6 +149,7 @@ class AjaxFunctions{
         $json[$i]->name         =   $key;
         $json[$i]->id           =   $key;
         $json[$i]->group_id     =   'user_meta';
+        $json[$i]->from         =   'meta';
         $json[$i]->type         =   'unknown';
         $json[$i]->buddypress   =   false;
 
@@ -162,43 +163,21 @@ class AjaxFunctions{
    */
   public function get_profile_options(){
     //Default data
-    $i = 0;
-    $json[$i]               =   new stdClass;
-    $json[$i]->name         =   'user_login';
-    $json[$i]->id           =   'user_login';
-    $json[$i]->group_id     =   'user_options';
-    $json[$i]->type         =   'text';
-    $json[$i]->buddypress   =   false;
-    $i++;
-    $json[$i]               =   new stdClass;
-    $json[$i]->name         =   'user_ID';
-    $json[$i]->id           =   'user_ID';
-    $json[$i]->group_id     =   'user_options';
-    $json[$i]->type         =   'integer';
-    $json[$i]->buddypress   =   false;
-    $i++;
-    $json[$i]               =   new stdClass;
-    $json[$i]->name         =   'user_email';
-    $json[$i]->id           =   'user_email';
-    $json[$i]->group_id     =   'user_options';
-    $json[$i]->type         =   'email';
-    $json[$i]->buddypress   =   false;
-    $i++;
-    $json[$i]               =   new stdClass;
-    $json[$i]->name         =   'user_url';
-    $json[$i]->id           =   'user_url';
-    $json[$i]->group_id     =   'user_options';
-    $json[$i]->type         =   'url';
-    $json[$i]->buddypress   =   false;
-    $i++;
-    $json[$i]               =   new stdClass;
-    $json[$i]->name         =   'display_name';
-    $json[$i]->id           =   'display_name';
-    $json[$i]->group_id     =   'user_options';
-    $json[$i]->type         =   'text';
-    $json[$i]->buddypress   =   false;
-    $i++;
+    $currentuserid          =   get_current_user_id();
+    $userdata               = get_userdata($currentuserid);
 
+    $i = 0;
+    foreach($userdata->data as $key => $value){
+
+      $json[$i]               =   new stdClass;
+      $json[$i]->name         =   $key;
+      $json[$i]->id           =   $key;
+      $json[$i]->group_id     =   'user_options';
+      $json[$i]->type         =   'text';
+      $json[$i]->from         =   'options';
+      $json[$i]->buddypress   =   false;
+      $i++;
+    }
     echo json_encode($json);
     die(); // this is required to return a proper result
 
@@ -209,10 +188,8 @@ class AjaxFunctions{
   public function get_bpress_profile(){
      global $bp;
      //Variables
-     $user_ID   =  get_current_user_id();
      $json      = array();
      $i         = 0;
-     $user_meta = get_user_meta($user_ID);
      //Buddypress profile field data
         if ( bp_is_active( 'xprofile' ) ) :
           if ( bp_has_profile( array( 'fetch_field_data' => false ) ) ) :
@@ -226,6 +203,7 @@ class AjaxFunctions{
                   $json[$i]->name         =   $field->name;
                   $json[$i]->id           =   $field->id;
                   $json[$i]->group_id     =   $field->group_id;
+                  $json[$i]->from         =   'buddypress';
                   $json[$i]->type         =   $field->type;
                   $json[$i]->buddypress   =   true;
                   $i++;
@@ -241,19 +219,6 @@ class AjaxFunctions{
           endif;
         endif;
 
-      //parse the user meta values
-      foreach ($user_meta as $key => $value) {
-        # code...
-        /*
-        $json[$i]               =   new stdClass;
-        $json[$i]->name         =   $key;
-        $json[$i]->id           =   $key;
-        $json[$i]->group_id     =   'user_meta';
-        $json[$i]->type         =   'unknown';
-        $json[$i]->buddypress   =   false;
-
-        $i++;*/
-      }
      echo json_encode($json);
      die(); // this is required to return a proper result
   }
@@ -279,7 +244,8 @@ class AjaxFunctions{
                     'is_subscriber_updateable'  => true,
                     'name'                      => 'Name',
                     'resource_type_link'        => '',
-                    'self_link'                 => ''
+                    'self_link'                 => '',
+                    'custom_field'              => false,
 
              );
              $custom_fields[] =  array(
@@ -288,7 +254,8 @@ class AjaxFunctions{
                     'is_subscriber_updateable'  => true,
                     'name'                      => 'Email',
                     'resource_type_link'        => '',
-                    'self_link'                 => ''
+                    'self_link'                 => '',
+                    'custom_field'              => false,
 
              );
 
@@ -312,7 +279,7 @@ class AjaxFunctions{
              $json = $json;
 
            } else {
-               $error =  "<h2>Did not find list</h2>";
+               $error =  '<div id="setting-error-tgmpa" class="updated settings-error notice is-dismissible"><h2>Did not find list</h2></div>';
                $json =   array('error' => $error);
            }
 
@@ -326,7 +293,7 @@ class AjaxFunctions{
 
      }else{
         //Throw error to json if it's default
-        $json = array('error' => '<h3>Pick a list first</h3>');
+        $json = array('error' => '<div id="setting-error-tgmpa" class="updated settings-error notice is-dismissible"><h3>Pick a list first</h3></div>');
 
      }
 
