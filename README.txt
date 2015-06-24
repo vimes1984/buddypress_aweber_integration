@@ -1,7 +1,7 @@
 === buddypress-to-aweber ===
 Contributors: vimes1984
 Donate link: http://buildawebdoctor.com
-Tags: comments, spam
+Tags: Aweber, Buddypress
 Requires at least: 3.5.1
 Tested up to: 3.6
 Stable tag: 1.0.0
@@ -12,13 +12,11 @@ Aweber to buddypress integration
 
 == Description ==
 
-Aweber to buddypress integration (Longer description here)
+Aweber to buddypress integration
 
 == Installation ==
 
 1. Upload `` to the `/wp-content/plugins/` directory
-1. Activate the plugin through the "Plugins" menu in WordPress
-1. Place `<?php do_action("buddypress-to-aweber_hook"); ?>` in your templates
 
 == Screenshots ==
 
