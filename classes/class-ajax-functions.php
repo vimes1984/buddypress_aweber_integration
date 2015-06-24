@@ -94,7 +94,6 @@ class AjaxFunctions{
 	}
   public function check_options(){
 
-    if(isset($_COOKIE['accessToken']) && isset($_COOKIE['accessTokenSecret'])){
      $accessToken        = get_option('accessToken');
      $accessTokenSecret  = get_option('accessTokenSecret');
        if( isset($accessToken)  && isset($accessTokenSecret) && $accessToken != NULL && $accessTokenSecret != NULL ){
@@ -106,18 +105,21 @@ class AjaxFunctions{
          $this->aweber = new AWeberAPI($consumerKey, $consumerSecret);
 
          add_action( 'wp_ajax_get_list', array($this,  'get_list') );
+         add_action('wp_ajax_nopriv_get_list', array($this, 'get_list') );
 
          add_action( 'wp_ajax_get_bpress_profile', array($this,  'get_bpress_profile') );
+         add_action('wp_ajax_nopriv_get_bpress_profile', array($this, 'get_bpress_profile') );
 
          add_action( 'wp_ajax_get_profile_options', array($this,  'get_profile_options') );
+         add_action('wp_ajax_nopriv_get_profile_options', array($this, 'get_profile_options') );
 
          add_action( 'wp_ajax_get_profile_meta', array($this,  'get_profile_meta') );
+         add_action('wp_ajax_nopriv_get_profile_meta', array($this, 'get_profile_meta') );
 
          add_action( 'wp_ajax_set_field_mapping', array($this,  'set_field_mapping') );
+         add_action('wp_ajax_nopriv_set_field_mapping', array($this, 'set_field_mapping') );
 
        }
-
-     }
 
   }
   public function set_field_mapping(){

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Buddypress to Aweber
  *
@@ -115,10 +116,11 @@ class NewUserSendData{
    */
    public function check_options(){
      $getexisting = get_option('mappingfieldarray');
-     if((get_option('accessToken') != false || get_option('accessToken') != NULL) && (get_option('accessTokenSecret')!= false || get_option('accessToken') != NULL) && $getexisting != false ){
-
        add_action( 'bp_core_activated_user', array($this, 'bp_aweber_mapping_new_user' ) );
        add_action( 'xprofile_updated_profile', array($this, 'update_profile_send') );
+
+     if((get_option('accessToken') != false || get_option('accessToken') != NULL) && (get_option('accessTokenSecret')!= false || get_option('accessToken') != NULL) && $getexisting != false ){
+
 
 
      }
@@ -220,12 +222,26 @@ class NewUserSendData{
           $params       = array('email' => $email);
           $subscribers  = $account->findSubscribers($params);
           if(count($subscribers)) {
+					//Update user
 
             $subscriber                 = $subscribers[0];
             $subscriber->name           = $name;
             $subscriber->custom_fields  = $custom_fields;
             $subscriber->save();
-          }
+
+          }else{
+						//New user
+						$params = array(
+								'email' => $email,
+								'name' => $name,
+								'ip_address' => '127.0.0.1',
+								'misc_notes' => 'Signed up from buddypress',
+								'custom_fields' => $custom_fields,
+						);
+						$subscribers = $list->subscribers;
+						$new_subscriber = $subscribers->create($params);
+
+					}
           # success!
 
         }
@@ -247,7 +263,6 @@ class NewUserSendData{
     public function bp_aweber_mapping_new_user($user_id){
       global $bp;
       $listid = $this->options;
-
       //Variables
       $listid = $this->options;
       $user_meta      = get_user_meta($user_ID);
