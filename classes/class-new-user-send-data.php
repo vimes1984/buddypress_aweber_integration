@@ -136,9 +136,9 @@ class NewUserSendData{
 
       $listid   = $this->options;
 
-    //  $user_id = 160;
+    	//$user_id = 160;
       //Variables
-      $listid = $this->options;
+      $listid 				= $this->options;
       $user_meta      = get_user_meta($user_ID);
       //$user_options   =
       $getexisting    = get_option('mappingfieldarray');
